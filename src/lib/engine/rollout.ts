@@ -233,7 +233,7 @@ async function onClose(ctx: Ctx, job: Job) {
   const maybes = (await jobOffers(ctx, job.id)).filter((r) => r.offer.reply === "maybe");
   for (const m of maybes) await textProvider(ctx, m.provider, T.closedToMaybe(ctx.hh, job), job.id);
   await log(ctx, job.id, "closed", "Stopped offering: nobody claimed it in time",
-    `You and Susanna texted${maybes.length ? ` · "No longer needed" sent to ${maybes.map((m) => m.provider.name).join(", ")}` : ""}`);
+    `Parents texted${maybes.length ? ` · "No longer needed" sent to ${maybes.map((m) => m.provider.name).join(", ")}` : ""}`);
   await alertParents(ctx, T.pClosed(ctx.hh, job), job.id);
 }
 
@@ -311,7 +311,7 @@ export async function claim(ctx: Ctx, job: Job, offer: Offer, provider: Provider
     await textProvider(ctx, r.provider, r.offer.reply === "backup" ? T.filledBackup(ctx.hh, job) : T.filled(ctx.hh, job), job.id);
   }
   await log(ctx, job.id, "booked", `${provider.name} replied 1 and is booked${offer.rateCents != null ? ` at ${money(offer.rateCents)}/hr` : ""}`,
-    `Confirmation sent · you and Susanna texted${others.length ? ` · "Job filled" text to ${others.map((r) => r.provider.name).join(", ")}` : ""}`);
+    `Confirmation sent · parents texted${others.length ? ` · "Job filled" text to ${others.map((r) => r.provider.name).join(", ")}` : ""}`);
   await alertParents(ctx, T.pBooked(ctx.hh, job, provider.name, offer.rateCents), job.id);
 
   // Day-of reminder: 9 am that day, or 7 pm the night before for jobs starting before 9.
@@ -338,7 +338,7 @@ export async function dropBooking(ctx: Ctx, job: Job, offer: Offer, provider: Pr
     : "everyone who didn't say no is being texted, then the remaining tiers.";
   await log(ctx, job.id, "canceled",
     byParent ? `You marked ${provider.name} as canceled. Job reopened automatically.` : `${provider.name} replied DROP. Job reopened automatically.`,
-    `You and Susanna texted · ${provider.name} won't be offered this job again`);
+    `Parents texted · ${provider.name} won't be offered this job again`);
   await alertParents(ctx, T.pDropped(ctx.hh, job, provider.name, plan), job.id);
   await scheduleClose(ctx, job);
   const at = sitterSendTime(ctx, job, ctx.now);

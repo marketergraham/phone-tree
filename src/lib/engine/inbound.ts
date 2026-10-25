@@ -136,7 +136,7 @@ async function handleDigit(ctx: Ctx, p: Provider, digit: string, code?: string) 
     }
     await textProvider(ctx, p, T.noLonger(), job.id);
     await alertParents(ctx, `Phone Tree: ${p.name} replied 1 to job ${job.code}, which isn't being offered anymore. Text her if you still need someone.`, job.id);
-    await log(ctx, job.id, "reply", `${p.name} replied 1 after the job stopped being offered`, "Forwarded to you and Susanna");
+    await log(ctx, job.id, "reply", `${p.name} replied 1 after the job stopped being offered`, "Forwarded to parents");
     return;
   }
   if (iAmBooked) return textProvider(ctx, p, T.alreadyBooked(ctx.hh, job), job.id);
