@@ -1,0 +1,39 @@
+# Render Blueprint: one always-on web service + one Postgres database.
+# In Render: New > Blueprint > pick this repo. Fill in the values marked sync: false.
+services:
+  - type: web
+    name: phone-tree
+    runtime: node
+    plan: starter            # always on; the free plan sleeps and would miss texts
+    region: oregon
+    buildCommand: npm ci && npm run build
+    startCommand: npm start  # applies database migrations, then starts the app
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: phone-tree-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: SMS_DRIVER
+        value: twilio        # set to "fake" to try the app with the text simulator instead
+      - key: PUBLIC_URL      # e.g. https://phone-tree.onrender.com (no trailing slash)
+        sync: false
+      - key: PARENT_PHONES   # e.g. Graham:+15105550100,Susanna:+15105550101
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_FROM_NUMBER   # your Twilio number, e.g. +15105550199
+        sync: false
+
+databases:
+  - name: phone-tree-db
+    plan: basic-256mb
+    databaseName: phonetree
+    user: phonetree
+    postgresMajorVersion: "16"

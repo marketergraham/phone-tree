@@ -12,7 +12,7 @@ const codeHint = (code: string | null, show: boolean) =>
 export const T = {
   offer(hh: Household, j: J, rateCents: number | null, showCode: boolean, unusualDesc?: string) {
     const lead = unusualDesc
-      ? `Phone Tree: We know ${unusualDesc} aren't usually your time, but just in case: ${hh.displayName} at ${hh.houseName} need someone ${when(j, hh)}`
+      ? `Phone Tree: We know ${unusualDesc} isn't usually your time, but just in case: ${hh.displayName} at ${hh.houseName} need someone ${when(j, hh)}`
       : `Phone Tree: ${hh.displayName} at ${hh.houseName} have a new job: ${when(j, hh)}`;
     const kids = j.kids ? `, ${j.kids}` : "";
     const pay = rateCents != null ? ` Pays ${money(rateCents)}/hr.` : "";

@@ -98,8 +98,8 @@ input[type="time"], input[type="datetime-local"], select, textarea {
 .nextup .k { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber-soft); }
 
 .tl { list-style: none; margin: 0; padding: 0; position: relative; }
-.tl::before { content: ""; position: absolute; left: 141px; top: 6px; bottom: 10px; width: 2px; background: var(--line); }
-.tl li { display: grid; grid-template-columns: 120px 20px minmax(0, 1fr); column-gap: 12px; padding-bottom: 16px; position: relative; }
+.tl::before { content: ""; position: absolute; left: 171px; top: 6px; bottom: 10px; width: 2px; background: var(--line); }
+.tl li { display: grid; grid-template-columns: 150px 20px minmax(0, 1fr); column-gap: 12px; padding-bottom: 16px; position: relative; }
 .tl .t { font-size: 13px; color: var(--muted); text-align: right; padding-top: 1px; }
 .tl .m { display: flex; justify-content: center; padding-top: 4px; z-index: 1; }
 .tl .dot { width: 12px; height: 12px; border-radius: 999px; background: var(--brand); }

@@ -197,7 +197,7 @@ async function onRemind(ctx: Ctx, job: Job) {
   await scheduleReminder(ctx, job);
 }
 
-function headStartMinutes(ctx: Ctx, job: Job) {
+export function headStartMinutes(ctx: Ctx, job: Job) {
   const minsLeft = (job.startsAt.getTime() - ctx.now.getTime()) / 60000;
   return Math.max(10, Math.min(job.headStartMinutes, Math.floor(minsLeft / 4)));
 }

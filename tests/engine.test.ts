@@ -135,8 +135,8 @@ test("Usually-unavailable sitters are asked at the end", async () => {
   await tick("2026-10-17T11:00");
   assert.equal((await outTo(P.priya)).length, 0);
   await tick("2026-10-17T13:00");
-  assert.match(await last(P.priya), /We know Saturdays (evening|late evening).* aren't usually your time/);
-  assert.match(await last(P.hannah), /aren't usually your time/);
+  assert.match(await last(P.priya), /We know Saturday evening & late evening isn't usually your time, but just in case/);
+  assert.match(await last(P.hannah), /isn't usually your time/);
 });
 
 test("Unclaimed job closes, parents can reopen with OPEN", async () => {

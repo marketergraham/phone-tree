@@ -2,7 +2,7 @@
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { schema } from "@/db";
 import { Ctx, Job, texting } from "@/lib/engine/context";
-import { candidates, jobOffers, TIER_COUNT } from "@/lib/engine/rollout";
+import { candidates, headStartMinutes, jobOffers, TIER_COUNT } from "@/lib/engine/rollout";
 import { fmtRange, fmtStamp, fmtTime, insideTextingHours, local, money, nextTextingTime } from "@/lib/time";
 
 const { jobs, scheduledEvents, timeline } = schema;
@@ -82,9 +82,41 @@ async function describeFuture(ctx: Ctx, job: Job): Promise<Future[]> {
       }
     }
   }
-  // Steps that will be scheduled later but aren't yet (so the plan reads end to end).
-  if (job.status === "open" && !evs.some((e) => e.type === "send_tier" || e.type === "head_start_end" || e.type === "head_start")) {
-    // nothing extra: rollout steps are always scheduled one at a time
+  // Rollout steps are scheduled one at a time. Project the rest so the plan reads end to end.
+  if (job.status === "open") {
+    const rolloutTypes = ["send_tier", "head_start", "head_start_end", "ask_unavailable"];
+    const anchor = [...evs].reverse().find((e) => rolloutTypes.includes(e.type));
+    const close = evs.find((e) => e.type === "close")?.runAt;
+    if (anchor && anchor.type !== "ask_unavailable") {
+      let t = effectiveTime(ctx, job, anchor.type, anchor.runAt);
+      let tier = job.tierSent;
+      const add = async (at: Date, text: string) => {
+        if (close && at >= close) return false;
+        out.push({ at, type: "projected", text, detail: "Planned, if no one has claimed it by then" });
+        return true;
+      };
+      if (anchor.type === "head_start") {
+        t = new Date(t.getTime() + headStartMinutes(ctx, job) * 60000);
+        const names = rows.filter((r) => ["none", "maybe"].includes(r.offer.reply)).map((r) => r.provider.name);
+        await add(t, names.length ? `Head start ends. ${names.join(", ")} texted again.` : "Head start ends. Recruiting picks up where it left off.");
+      }
+      if (anchor.type === "send_tier") tier = Number(anchor.payload.tier);
+      while (tier < TIER_COUNT) {
+        tier += 1;
+        t = effectiveTime(ctx, job, "send_tier", new Date(t.getTime() + (job.tierWaits[tier - 2] ?? 24) * HOUR));
+        const { ok } = await candidates(ctx, job, [tier]);
+        const send = ok.filter((c) => c.usual || job.unavailableMode === "start");
+        if (!(await add(t, send.length ? `Tier ${tier} texted: ${send.map((c) => c.provider.name).join(", ")}` : `Tier ${tier} (no one to text)`))) break;
+      }
+      if (tier >= TIER_COUNT && job.unavailableMode === "end" && !job.unavailableAsked) {
+        const { ok } = await candidates(ctx, job, [1, 2, 3]);
+        const list = ok.filter((c) => !c.usual).map((c) => c.provider.name);
+        if (list.length) {
+          t = effectiveTime(ctx, job, "ask_unavailable", new Date(t.getTime() + job.unavailableWaitHours * HOUR));
+          await add(t, `${list.join(" and ")} asked "just in case"`);
+        }
+      }
+    }
   }
   return out.sort((a, b) => +a.at - +b.at);
 }

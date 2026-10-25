@@ -5,8 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "node scripts/migrate.mjs && next start -p ${PORT:-3000}",
+    "lint": "eslint",
+    "migrate": "node scripts/migrate.mjs",
+    "db:generate": "drizzle-kit generate",
+    "test": "tsx --test tests/*.test.ts",
+    "seed:demo": "tsx --env-file=.env scripts/seed-demo.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.4",
@@ -30,5 +34,8 @@
     "eslint-config-next": "^15.5.28",
     "tsx": "^4.20.5",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=20.9"
   }
 }

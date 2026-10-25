@@ -140,7 +140,7 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
             </ul>
             {v.canAskUnavailable && (
               <form action={askUnavailableAction.bind(null, job.id)} style={{ marginTop: 12 }}>
-                <button className="btn sm" type="submit">Ask the usually-unavailable ones now</button>
+                <button className="btn sm" type="submit" style={{ whiteSpace: "normal", maxWidth: "100%" }}>Ask the usually-unavailable ones now</button>
               </form>
             )}
           </section>

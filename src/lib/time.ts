@@ -9,7 +9,7 @@ export const SLOTS = [
 ] as const;
 export type SlotKey = (typeof SLOTS)[number]["key"];
 export const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
-const WEEKDAY_PLURAL = ["Mondays", "Tuesdays", "Wednesdays", "Thursdays", "Fridays", "Saturdays", "Sundays"];
+const WEEKDAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 export function slotKey(weekday: number, slot: string) {
   return `${weekday}:${slot}`;
@@ -37,15 +37,18 @@ export function jobSlots(startsAt: Date, endsAt: Date, tz: string): string[] {
   return [...keys];
 }
 
-/** "Sat evenings" style description of the slots a sitter is missing. */
+/** "Saturday evening & late evening" style description of the slots a sitter is missing. */
 export function describeSlots(keys: string[]): string {
-  return keys
-    .map((k) => {
-      const [d, s] = k.split(":");
-      const slot = SLOTS.find((x) => x.key === s)!;
-      return `${WEEKDAY_PLURAL[Number(d) - 1]} ${slot.label.toLowerCase()}`;
-    })
-    .join(" or ");
+  const byDay = new Map<number, string[]>();
+  for (const k of keys) {
+    const [d, s] = k.split(":");
+    const label = SLOTS.find((x) => x.key === s)!.label.toLowerCase();
+    byDay.set(Number(d), [...(byDay.get(Number(d)) ?? []), label]);
+  }
+  return [...byDay.entries()]
+    .sort((a, b) => a[0] - b[0])
+    .map(([d, labels]) => `${WEEKDAY_NAMES[d - 1]} ${labels.join(" & ")}`)
+    .join(" and ");
 }
 
 export type TextingHours = { tz: string; startMin: number; endMin: number };
