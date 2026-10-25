@@ -21,8 +21,8 @@ export default function Terms() {
         <strong>Costs:</strong> Message and data rates may apply.
       </p>
       <p>
-        <strong>Help and opting out:</strong> reply HELP for help. Reply STOP at any time to stop all messages. Carriers are not
-        liable for delayed or undelivered messages.
+        <strong>Help and opting out:</strong> reply <strong>HELP</strong> for help. Reply <strong>STOP</strong> at any time to stop all
+        messages. Carriers are not liable for delayed or undelivered messages.
       </p>
       <p>
         <strong>Privacy:</strong> see the <a href="/privacy">privacy policy</a>.
