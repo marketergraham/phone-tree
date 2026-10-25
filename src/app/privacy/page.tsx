@@ -26,7 +26,10 @@ export default function Privacy() {
         come up. Message and data rates may apply. Reply HELP for help and STOP to stop all messages at any time.
       </p>
       <h2>Deleting your information</h2>
-      <p>Reply STOP, or ask the family directly, and your information will be removed.</p>
+      <p>
+        Reply STOP, or email <a href="mailto:marketergraham@gmail.com">marketergraham@gmail.com</a>, and your information
+        will be removed.
+      </p>
     </main>
   );
 }

@@ -25,6 +25,10 @@ export default function Terms() {
         messages. Carriers are not liable for delayed or undelivered messages.
       </p>
       <p>
+        <strong>Support:</strong> reply <strong>HELP</strong> to the Phone Tree number, or email{" "}
+        <a href="mailto:marketergraham@gmail.com">marketergraham@gmail.com</a>.
+      </p>
+      <p>
         <strong>Privacy:</strong> see the <a href="/privacy">privacy policy</a>.
       </p>
     </main>
