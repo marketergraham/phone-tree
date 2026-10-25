@@ -60,7 +60,7 @@ export const T = {
   help: (hh: Household) =>
     `Phone Tree sends job offers from ${hh.displayName}. Reply 1 to take a job, 2 if you can't, 3 for maybe, 4 to be a backup, DROP to cancel a booking. Reply STOP to opt out.`,
   joined: (hh: Household) =>
-    `You're on ${hh.displayName}'s Phone Tree and will get job offers here. Msg frequency varies. Reply HELP for help, STOP to opt out.`,
+    `Phone Tree: You're on ${hh.displayName}'s Phone Tree and will get babysitting job offers here. Msg frequency varies. Msg & data rates may apply. Reply HELP for help, STOP to opt out.`,
   pleaseJoin: () => "Text JOIN to start getting job offers from Phone Tree.",
   passedAlong: (hh: Household) => `Passed along to ${hh.displayName}. To answer a job: 1 = take it, 2 = can't, 3 = maybe.`,
   notAdded: (hh: Household) => `Thanks! Ask ${hh.displayName} to add you to Phone Tree first.`,
