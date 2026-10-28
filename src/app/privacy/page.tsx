@@ -10,7 +10,7 @@ export default function Privacy() {
       </p>
       <h2>What we collect</h2>
       <p>
-        A sitter&apos;s name, mobile number, usual hourly rate, general weekly availability, and their replies to job texts.
+        A childcare provider&apos;s name, mobile number, usual hourly rate, general weekly availability, and their replies to job texts.
         For the parents: their names and mobile numbers.
       </p>
       <h2>How it&apos;s used</h2>
