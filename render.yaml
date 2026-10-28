@@ -30,6 +30,10 @@ services:
         sync: false
       - key: TWILIO_FROM_NUMBER   # your Twilio number, e.g. +15105550199
         sync: false
+      - key: VOICE_FORWARD_TO     # calls to the Phone Tree number ring this phone
+        sync: false
+      - key: TWILIO_MESSAGING_SERVICE_SID
+        sync: false
 
 databases:
   - name: phone-tree-db
