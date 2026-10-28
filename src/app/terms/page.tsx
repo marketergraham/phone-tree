@@ -5,7 +5,7 @@ export default function Terms() {
     <main className="page stack" style={{ maxWidth: 720 }}>
       <h1>Phone Tree messaging terms</h1>
       <p>
-        <strong>Program:</strong> Phone Tree sends babysitting job offers from one family to babysitters they know personally,
+        <strong>Program:</strong> Phone Tree sends childcare job offers from one family to childcare providers they know personally,
         plus booking confirmations, reminders, and notices when a job is filled or canceled.
       </p>
       <p>
